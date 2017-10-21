@@ -6,9 +6,9 @@ module.exports = () => ({
 
   output: {
 
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname),
 
-    filename: 'index.js',
+    filename: 'handler.js',
 
     libraryTarget: 'commonjs'
 
