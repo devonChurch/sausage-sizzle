@@ -1,0 +1,34 @@
+{
+  "name": "sausage-sizzle",
+  "version": "1.0.0",
+  "description": "AWS Lambdas for enhancedigital.co.nz",
+  "main": "webpack.config.js",
+  "scripts": {
+    "start": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "git-cz",
+    "commitizen": "commitizen"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devonChurch/sausage-sizzle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devonChurch/sausage-sizzle/issues"
+  },
+  "homepage": "https://github.com/devonChurch/sausage-sizzle#readme",
+  "devDependencies": {
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "2.0.0",
+    "ts-loader": "^3.0.5",
+    "typescript": "^2.5.3",
+    "webpack": "^3.8.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
