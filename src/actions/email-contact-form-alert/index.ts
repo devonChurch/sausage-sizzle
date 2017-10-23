@@ -1,3 +1,4 @@
+import { config } from '../../utils';
 import createEdmTemplate from './create-edm-template';
 
 interface IformData {
@@ -14,32 +15,25 @@ class EmailContactFormAlert {
   }
 
   public createContract(formData: IformData) {
+    const { kelsey, devon } = config.emails;
     const { name, email, message } = formData;
-    const receiveFrom = 'notifydevon@gmail.com';
-    const sendTo = 'kelsey@enhancedigital.co.nz';
+    const isTest = message.toLowerCase().trim() === 'test';
+    const sender = devon;
+    const receiver = isTest ? devon : kelsey;
+    const Charset = 'UTF-8';
 
     return {
       Destination: {
-        ToAddresses: [sendTo],
+        ToAddresses: [receiver],
       },
       Message: {
         Body: {
-          Html: {
-            Charset: 'UTF-8',
-            Data: createEdmTemplate(formData),
-          },
-          Text: {
-            Charset: 'UTF-8',
-            Data: `Name: ${name}, Email: ${email}, Message: ${message}.`,
-          },
+          Html: { Charset, Data: createEdmTemplate(formData) },
+          Text: { Charset, Data: `Name: ${name}, Email: ${email}, Message: ${message}.` },
         },
-        Subject: {
-          Charset: 'UTF-8',
-          Data: 'You got an message!',
-        },
+        Subject: { Charset, Data: 'You got an message!' },
       },
-      ReturnPath: receiveFrom,
-      Source: receiveFrom,
+      Source: sender,
     };
   }
 
