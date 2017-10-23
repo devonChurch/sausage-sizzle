@@ -20,6 +20,11 @@ service: enhance-digital
 provider:
   name: aws
   runtime: nodejs6.10
+  iamRoleStatements:
+    - Effect: "Allow"
+      Resource: "*"
+      Action:
+        - "ses:*"
 
 # you can overwrite defaults here
 #  stage: dev

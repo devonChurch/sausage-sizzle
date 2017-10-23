@@ -23,12 +23,14 @@
   },
   "homepage": "https://github.com/devonChurch/sausage-sizzle#readme",
   "devDependencies": {
-    "@types/aws-sdk": "^2.7.0",
-    "@types/node": "^8.0.46",
     "commitizen": "^2.9.6",
     "cz-conventional-changelog": "2.0.0",
+    "prettier": "1.7.4",
     "serverless": "^1.23.0",
     "ts-loader": "^3.0.5",
+    "tslint": "^5.8.0",
+    "tslint-config-prettier": "^1.6.0",
+    "tslint-loader": "^3.5.3",
     "typescript": "^2.5.3",
     "webpack": "^3.8.1"
   },
@@ -36,5 +38,11 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "aws-sdk": "^2.138.0",
+    "@types/aws-lambda": "0.0.17",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/node": "^8.0.46"
   }
 }
