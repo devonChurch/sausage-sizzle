@@ -2,7 +2,7 @@ import emailContactFormAlert from './handlers/email-contact-form-alert';
 
 console.log(`
 - - - - - - - - - - - - - - - 
-version: 1.1
+version: 1.2
 - - - - - - - - - - - - - - - 
 `);
 const handlers = {
