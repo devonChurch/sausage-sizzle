@@ -5,7 +5,7 @@ const keys = {
 
 const cloudFront = 'http://d1aktqwckjtk2m.cloudfront.net/';
 
-const origin = 'https://enhancedigital.co.nz';
+const origin = 'enhancedigital.co.nz';
 
 const emails = {
   kelsey: 'kelsey@enhancedigital.co.nz',

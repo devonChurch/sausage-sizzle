@@ -1,5 +1,5 @@
 import * as AWS from 'aws-sdk';
-import {cors} from '../utils';
+import { cors } from '../utils';
 import EmailContactFormAlert from '../actions/email-contact-form-alert';
 import { APIGatewayEvent, Context, ProxyCallback } from '../../node_modules/@types/aws-lambda/';
 // import AWSLambda = require('../../node_modules/@types/aws-lambda/');
@@ -13,28 +13,23 @@ import { APIGatewayEvent, Context, ProxyCallback } from '../../node_modules/@typ
 
 // const { APIGatewayEvent, Context, ProxyCallback } = AWSLambda;
 
-const ses:AWS.SES = new AWS.SES();
+const ses: AWS.SES = new AWS.SES();
 const emailContactFormAlert = new EmailContactFormAlert(ses);
 const handler = async (event: APIGatewayEvent, context: Context, callback: ProxyCallback) => {
+  console.log(event);
+  try {
+    const formData = JSON.parse(event.body);
 
-    try {
+    await emailContactFormAlert.sendEmail(formData);
 
-        const formData = JSON.parse(event.body);
-
-        await emailContactFormAlert.sendEmail(formData);
-
-        callback(null, {
-            headers: cors.headers,
-            statusCode: 200,
-            body: JSON.stringify(formData),
-        });
-
-    } catch (error) {
-
-        callback(error);
-    
-    }
-
+    callback(null, {
+      headers: cors.createHeaders(event.headers.origin),
+      statusCode: 200,
+      body: JSON.stringify(formData),
+    });
+  } catch (error) {
+    callback(error);
+  }
 };
 
 export default handler;
