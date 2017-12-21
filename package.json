@@ -5,12 +5,14 @@
   "main": "webpack.config.js",
   "scripts": {
     "start": "webpack",
+    "start:serverless:develop": "AWS_REGION=us-east-1 serverless offline start",
+    "build:develop": "NODE_ENV=development webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "git-cz",
     "webpack": "webpack",
     "commitizen": "commitizen",
     "serverless": "serverless",
-    "deploy": "webpack -p && serverless deploy --verbose"
+    "deploy": "NODE_ENV=production webpack -p && serverless deploy --verbose"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
     "cz-conventional-changelog": "2.0.0",
     "prettier": "1.7.4",
     "serverless": "^1.23.0",
+    "serverless-offline": "^3.16.0",
     "ts-loader": "^3.0.5",
     "tslint": "^5.8.0",
     "tslint-config-prettier": "^1.6.0",

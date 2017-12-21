@@ -26,6 +26,9 @@ provider:
       Action:
         - "ses:*"
 
+plugins:
+  - serverless-offline
+
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
