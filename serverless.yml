@@ -60,6 +60,7 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+
   emailContactFormAlert:
     handler: handler.emailContactFormAlert
     events:
@@ -67,6 +68,13 @@ functions:
           path: email-contact-form-alert
           method: post
           cors: true
+
+  emailScreenshotComparison:
+    handler: handler.emailScreenshotComparison
+    events:
+      - http:
+          path: email-screenshot-comparisons
+          method: get
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
