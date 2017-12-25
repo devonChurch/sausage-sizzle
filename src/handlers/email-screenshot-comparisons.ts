@@ -8,14 +8,14 @@ const ses: AWS.SES = new AWS.SES();
 const handler = async (event: APIGatewayEvent, context: Context, callback: ProxyCallback) => {
   console.log(event);
   try {
-    const formData = JSON.parse(event.body);
+    // const formData = JSON.parse(event.body);
 
     // await emailContactFormAlert.sendEmail(formData);
 
     callback(null, {
       // headers: cors.createHeaders(event.headers.origin),
       statusCode: 200,
-      body: 'sent',
+      body: JSON.stringify({ complete: true }),
     });
   } catch (error) {
     callback(error);
