@@ -25,6 +25,10 @@ provider:
       Resource: "*"
       Action:
         - "ses:*"
+    - Effect: "Allow"
+      Resource: "*"
+      Action:
+        - "codepipeline:*"
 
 plugins:
   - serverless-offline
