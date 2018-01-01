@@ -1,5 +1,5 @@
 import emailContactFormAlert from './handlers/email-contact-form-alert';
-import emailScreenshotComparison from './handlers/email-screenshot-comparisons';
+import emailScreenshotComparison from './handlers/email-screenshot-comparison';
 
 console.log(`
 - - - - - - - - - - - - - - - 

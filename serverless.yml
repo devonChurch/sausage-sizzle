@@ -86,7 +86,7 @@ functions:
       environment: production
     events:
       - http:
-          path: email-screenshot-comparisons
+          path: email-screenshot-comparison
           method: get
 
 #    The following are a few example events you can configure

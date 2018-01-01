@@ -1,11 +1,9 @@
 import * as AWS from 'aws-sdk';
 import { cors } from '../utils';
-// import EmailContactFormAlert from '../actions/email-contact-form-alert';
+import EmailScreenshotComparison from '../actions/email-screenshot-comparison';
 import { APIGatewayEvent, Context, ProxyCallback } from '../../node_modules/@types/aws-lambda/';
 
-const codepipeline = new AWS.CodePipeline();
-
-interface InterfaceCodePipelineEvent {
+interface ICodePipelineEvent {
   'CodePipeline.job': {
     id: string;
     accountId: string;
@@ -27,13 +25,11 @@ interface InterfaceCodePipelineEvent {
   };
 }
 
+const codepipeline = new AWS.CodePipeline();
 const ses: AWS.SES = new AWS.SES();
-// const emailContactFormAlert = new EmailContactFormAlert(ses);
-const handler = async (
-  event: InterfaceCodePipelineEvent,
-  context: Context,
-  callback: ProxyCallback,
-) => {
+const s3 = new AWS.S3();
+const emailScreenshotComparison = new EmailScreenshotComparison(ses, s3);
+const handler = async (event: ICodePipelineEvent, context: Context, callback: ProxyCallback) => {
   console.log('event', JSON.stringify(event, null, 2));
   const job = event['CodePipeline.job'];
   const jobId = job.id;
@@ -42,7 +38,7 @@ const handler = async (
     const { UserParameters } = job.data.actionConfiguration.configuration;
     const { bucket } = JSON.parse(UserParameters);
 
-    // await emailContactFormAlert.sendEmail(formData);
+    await emailScreenshotComparison.sendEmail(bucket);
 
     codepipeline.putJobSuccessResult({ jobId }, (error, data) => {
       if (error) {
