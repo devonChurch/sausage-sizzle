@@ -55,6 +55,7 @@ const handler = async (event: ICodePipelineEvent, context: Context, callback: Pr
     // });
   } catch (error) {
     // callback(error);
+    console.log(error);
     const errorParams = {
       jobId,
       failureDetails: {
