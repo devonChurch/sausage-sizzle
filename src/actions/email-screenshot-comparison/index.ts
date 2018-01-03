@@ -1,5 +1,6 @@
 import { config } from '../../utils';
 import createEdmTemplate from './create-edm-template';
+import { log } from 'util';
 
 interface Imanifest {
   fileName: string;
@@ -25,10 +26,12 @@ class EmailScreenshotComparison {
       Key: 'manifest.json',
     };
 
+    console.log('get manifest', params);
+
     return new Promise((resolve, reject) => {
       this.s3.getObject(params, (error, response) => {
         if (error) {
-          reject(error);
+          reject(error.stack);
         } else {
           console.log('>>> from s3', response);
           const manifest = response.Body.toString();
