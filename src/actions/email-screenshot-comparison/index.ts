@@ -12,10 +12,6 @@ interface Imanifest {
   bucket?: string;
 }
 
-interface Is3Response {
-  Body: Buffer;
-}
-
 class EmailScreenshotComparison {
   public ses: AWS.SES;
   public s3: AWS.S3;
@@ -34,14 +30,15 @@ class EmailScreenshotComparison {
     console.log('get manifest', params);
 
     return new Promise((resolve, reject) => {
-      this.s3.getObject(params, (error, response: Is3Response) => {
+      this.s3.getObject(params, (error, response) => {
         if (error) {
           console.log(JSON.stringify(error, null, 2));
           reject(error.stack);
         } else {
           console.log(JSON.stringify(response, null, 2));
-          const manifest = response.Body.toString('utf-8');
-          resolve(manifest);
+          const manifestString = response.Body.toString();
+          const manifestJson = JSON.parse(manifestString);
+          resolve(manifestString);
         }
       });
     });
