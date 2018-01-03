@@ -38,7 +38,7 @@ class EmailScreenshotComparison {
           console.log(JSON.stringify(response, null, 2));
           const manifestString = response.Body.toString();
           const manifestJson = JSON.parse(manifestString);
-          resolve(manifestString);
+          resolve(manifestJson);
         }
       });
     });
