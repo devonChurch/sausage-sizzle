@@ -112,13 +112,13 @@ const createIntroduction = (title: string, description: string) => `
 </table>
 `;
 
-const createWrapper = (children: string) => `
+const createWrapper = (size: string, children: string) => `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head></head>
   <body>
     ${createStyles()}
-    <table align="left" class="container container--contactForm" style="Margin: 0 auto; background: #fefefe; border-collapse: collapse; border-spacing: 0; margin: 0 auto; padding: 0; text-align: inherit; vertical-align: top; width: 540px;">
+    <table align="left" class="container container--contactForm" style="Margin: 0 auto; background: #fefefe; border-collapse: collapse; border-spacing: 0; margin: 0 auto; padding: 0; text-align: inherit; vertical-align: top; width: ${size};">
       <tbody>
         <tr style="padding: 0; text-align: left; vertical-align: top;">
           <td style="-moz-hyphens: auto; -webkit-hyphens: auto; Margin: 0; border-collapse: collapse !important; color: #054374; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; hyphens: auto; line-height: 1.3; margin: 0; padding: 0; text-align: left; vertical-align: top; word-wrap: break-word;">
@@ -139,14 +139,22 @@ const createWrapper = (children: string) => `
 </html>
 `;
 
-const createScaffold = (children: string, title: string, description: string) =>
-  createWrapper(`
-${createHeader()}
-${createIntroduction(title, description)}
-${createSpacer('32px')}
-${children}
-${createFooter()}
-`);
+const createScaffold = (
+  children: string,
+  title: string,
+  description: string,
+  size: string = '540px',
+) =>
+  createWrapper(
+    size,
+    `
+    ${createHeader()}
+    ${createIntroduction(title, description)}
+    ${createSpacer('32px')}
+    ${children}
+    ${createFooter()}
+  `,
+  );
 
 const email = { createScaffold, createSpacer, createDivider };
 

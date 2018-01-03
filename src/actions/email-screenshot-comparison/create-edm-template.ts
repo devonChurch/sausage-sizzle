@@ -55,7 +55,7 @@ const createComparisonColor = (status: string) => {
 };
 
 const createComparisonLinks = (status: string, fileName: string, bucket: string) => {
-  const createLink = (folder: string) => `https://s3.amazonaws.com/${bucket}/${folder}/fileName`;
+  const createLink = (folder: string) => `https://s3.amazonaws.com/${bucket}/${folder}/${fileName}`;
   const links = {
     old: createLink('old'),
     new: createLink('new'),
@@ -133,6 +133,7 @@ const createSectionComparison = ({ fileName, width, percentage, status, bucket }
 const createEdmTemplate = (manifest: Imanifest[]) => {
   const title = 'You have a message';
   const description = 'A potential client has completed your contact form.';
+  const size = '680px';
   const sections = createSectionGroupings(manifest);
   const content = Object.keys(sections)
     .map(section => {
@@ -153,7 +154,7 @@ ${createSpacer('16px')}
     })
     .join('');
 
-  return createScaffold(content, title, description);
+  return createScaffold(content, title, description, size);
 };
 
 export default createEdmTemplate;

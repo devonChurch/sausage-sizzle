@@ -19,7 +19,39 @@ class EmailScreenshotComparison {
     this.s3 = s3;
   }
 
-  public getManifest(): Imanifest[] {
+  public getManifest(bucket: string): Promise<any> {
+    const params = {
+      Bucket: bucket,
+      Key: 'manifest.json',
+    };
+
+    return new Promise((resolve, reject) => {
+      this.s3.getObject(params, (error, response) => {
+        if (error) {
+          reject(error);
+        } else {
+          console.log('>>> from s3', response);
+          const manifest = response.Body.toString();
+          resolve(manifest);
+        }
+      });
+    });
+
+    /*
+      data = {
+       AcceptRanges: "bytes", 
+       ContentLength: 3191, 
+       ContentType: "image/jpeg", 
+       ETag: "\"6805f2cfc46c0f04559748bb039d69ae\"", 
+       LastModified: <Date Representation>, 
+       Metadata: {
+       }, 
+       TagCount: 2, 
+       VersionId: "null"
+      }
+      */
+
+    /*
     return [
       {
         fileName: 'contact-1200.png',
@@ -104,12 +136,11 @@ class EmailScreenshotComparison {
         status: 'noOld',
       },
     ];
+    */
   }
 
   public createContract(manifest: Imanifest[]) {
-    const { kelsey, devon } = config.emails;
-    // const { name, email, message } = formData;
-    // const isTest = message.toLowerCase().trim() === 'test';
+    const { devon } = config.emails;
     const sender = devon;
     const receiver = devon;
     const Charset = 'UTF-8';
@@ -129,9 +160,9 @@ class EmailScreenshotComparison {
     };
   }
 
-  public sendEmail(bucket: string) {
-    const manifest = this.getManifest();
-    const enrichedManifest = manifest.map(item => ({ ...item, bucket }));
+  public async sendEmail(bucket: string) {
+    const manifest = await this.getManifest(bucket);
+    const enrichedManifest = manifest.map((item: Imanifest) => ({ ...item, bucket }));
     const contract = this.createContract(enrichedManifest);
 
     return new Promise((resolve, reject) => {
