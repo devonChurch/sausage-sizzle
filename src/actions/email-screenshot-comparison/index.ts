@@ -36,10 +36,10 @@ class EmailScreenshotComparison {
     return new Promise((resolve, reject) => {
       this.s3.getObject(params, (error, response: Is3Response) => {
         if (error) {
+          console.log(JSON.stringify(error, null, 2));
           reject(error.stack);
         } else {
-          console.log('>>> from s3', response);
-          console.log(response.Body);
+          console.log(JSON.stringify(response, null, 2));
           const manifest = response.Body.toString('utf-8');
           resolve(manifest);
         }
