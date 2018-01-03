@@ -171,6 +171,7 @@ class EmailScreenshotComparison {
 
   public async sendEmail(bucket: string) {
     const manifest = await this.getManifest(bucket);
+    console.log('manifest', typeof manifest, JSON.stringify(manifest, null, 2));
     const enrichedManifest = manifest.map((item: Imanifest) => ({ ...item, bucket }));
     const contract = this.createContract(enrichedManifest);
 
