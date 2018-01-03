@@ -1,6 +1,7 @@
 import { config } from '../../utils';
 import createEdmTemplate from './create-edm-template';
 import { log } from 'util';
+import { Buffer } from 'buffer';
 
 interface Imanifest {
   fileName: string;
@@ -9,6 +10,10 @@ interface Imanifest {
   percentage?: number;
   status: string;
   bucket?: string;
+}
+
+interface Is3Response {
+  Body: Buffer;
 }
 
 class EmailScreenshotComparison {
@@ -29,12 +34,13 @@ class EmailScreenshotComparison {
     console.log('get manifest', params);
 
     return new Promise((resolve, reject) => {
-      this.s3.getObject(params, (error, response) => {
+      this.s3.getObject(params, (error, response: Is3Response) => {
         if (error) {
           reject(error.stack);
         } else {
           console.log('>>> from s3', response);
-          const manifest = response.Body.toString();
+          console.log(response.Body);
+          const manifest = response.Body.toString('utf-8');
           resolve(manifest);
         }
       });
