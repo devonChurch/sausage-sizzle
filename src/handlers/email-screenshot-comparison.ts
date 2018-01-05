@@ -47,14 +47,7 @@ const handler = async (event: ICodePipelineEvent, context: Context, callback: Pr
         context.succeed('success');
       }
     });
-
-    // callback(null, {
-    //   // headers: cors.createHeaders(event.headers.origin),
-    //   statusCode: 200,
-    //   body: JSON.stringify({ complete: true }),
-    // });
   } catch (error) {
-    // callback(error);
     console.log(error);
     const errorParams = {
       jobId,

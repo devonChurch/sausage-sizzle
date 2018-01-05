@@ -2,7 +2,7 @@ import { config, email as emailTemplate } from '../../utils';
 
 interface Imanifest {
   fileName: string;
-  width: string;
+  width: number;
   section: string;
   percentage?: number;
   status: string;
@@ -16,15 +16,17 @@ interface Igrouping {
 const { createScaffold, createSpacer } = emailTemplate;
 
 const createSectionGroupings = (manifest: Imanifest[]): Igrouping => {
-  return manifest.reduce((acc: Igrouping, item: Imanifest) => {
-    const { section } = item;
-    const group = acc[section] || [];
+  return manifest
+    .sort((a: Imanifest, b: Imanifest) => a.width - b.width)
+    .reduce((acc: Igrouping, item: Imanifest) => {
+      const { section } = item;
+      const group = acc[section] || [];
 
-    return {
-      ...acc,
-      [section]: [...group, item],
-    };
-  }, {});
+      return {
+        ...acc,
+        [section]: [...group, item],
+      };
+    }, {});
 };
 
 const createSectionTitle = (title: string) => `
@@ -109,13 +111,15 @@ const createThumbnail = (link: string) => {
 
 const createLinkList = (links: { [index: string]: string }) => {
   const noLinkStyles = 'opacity: 0.25; text-decoration: line-through;';
-  const createLink = (link: string) =>
+  const createLink = (title: string, link: string) =>
     `<a href="${link || '#'}" style="${!link &&
-      noLinkStyles} Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-size: 10px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">Previous</a>`;
+      noLinkStyles} Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-size: 10px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">${title}</a>`;
 
-  return Object.keys(links)
-    .map(key => createLink(links[key]))
-    .join(' | ');
+  return `
+        ${createLink('Previous', links.old)} |
+        ${createLink('Current', links.new)} |
+        ${createLink('Compare', links.comapre)}
+    `;
 };
 
 const createIcon = (status: string) => {
@@ -169,9 +173,10 @@ const createSectionComparison = ({ fileName, width, percentage, status, bucket }
 };
 
 const createEdmTemplate = (manifest: Imanifest[]) => {
-  const title = 'You have a message';
-  const description = 'A potential client has completed your contact form.';
-  const size = '680px';
+  const title = 'Site review';
+  const description =
+    'As part of the automated build sequence the following screenshot comparisons were generated. Please review and identify any anomalies.';
+  const size = '780px';
   const sections = createSectionGroupings(manifest);
   const content = Object.keys(sections)
     .map(section => {

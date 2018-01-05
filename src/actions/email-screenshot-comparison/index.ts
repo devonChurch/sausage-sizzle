@@ -5,7 +5,7 @@ import { Buffer } from 'buffer';
 
 interface Imanifest {
   fileName: string;
-  width: string;
+  width: number;
   section: string;
   percentage?: number;
   status: string;
