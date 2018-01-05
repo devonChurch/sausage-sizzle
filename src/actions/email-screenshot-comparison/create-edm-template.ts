@@ -106,7 +106,7 @@ const createThumbnail = (link: string) => {
   const noThumbnail = 'http://assets.enhancedigital.co.nz/email/no-thumbnail.png';
 
   return `<img src="${link ||
-    noThumbnail}" alt="thumbnail" style="background: #ececec; border: 3px solid #cacaca; border-radius: 3px; margin: 0 0 16px; Maring: 0 0 16px; padding: 10px;">`;
+    noThumbnail}" alt="thumbnail" style="background: #ececec; border: 3px solid #cacaca; border-radius: 3px; padding: 10px;">`;
 };
 
 const createLinkList = (links: { [index: string]: string }) => {
@@ -159,6 +159,7 @@ const createSectionComparison = ({ fileName, width, percentage, status, bucket }
                     </h5>
 
                     ${thumbnail}
+                    ${createSpacer('16px')}
                     ${linkList}
                     
                     <p style="Margin: 0; Margin-bottom: 10px; color: #054374; font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight: normal; hyphens: initial !important; line-height: 1.3; margin: 0; margin-bottom: 10px; margin-top: 8px; padding: 0; text-align: left;">
