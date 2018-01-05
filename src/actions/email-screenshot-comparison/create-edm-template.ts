@@ -112,13 +112,14 @@ const createThumbnail = (link: string) => {
 const createLinkList = (links: { [index: string]: string }) => {
   const noLinkStyles = 'opacity: 0.25; text-decoration: line-through;';
   const createLink = (title: string, link: string) =>
-    `<a href="${link || '#'}" style="${!link &&
-      noLinkStyles} Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-size: 10px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">${title}</a>`;
+    `<a href="${link || '#'}" style="${!link
+      ? noLinkStyles
+      : ''} Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-size: 10px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">${title}</a>`;
 
   return `
         ${createLink('Previous', links.old)} |
         ${createLink('Current', links.new)} |
-        ${createLink('Compare', links.comapre)}
+        ${createLink('Compare', links.compare)}
     `;
 };
 
