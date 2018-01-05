@@ -44,21 +44,21 @@ class EmailScreenshotComparison {
     });
 
     /*
-      data = {
-       AcceptRanges: "bytes", 
-       ContentLength: 3191, 
-       ContentType: "image/jpeg", 
-       ETag: "\"6805f2cfc46c0f04559748bb039d69ae\"", 
-       LastModified: <Date Representation>, 
-       Metadata: {
-       }, 
-       TagCount: 2, 
-       VersionId: "null"
-      }
-      */
+    data = {
+      AcceptRanges: "bytes", 
+      ContentLength: 3191, 
+      ContentType: "image/jpeg", 
+      ETag: "\"6805f2cfc46c0f04559748bb039d69ae\"", 
+      LastModified: <Date Representation>, 
+      Metadata: {
+      }, 
+      TagCount: 2, 
+      VersionId: "null"
+    }
+    */
 
     /*
-    return [
+    return Promise.resolve([
       {
         fileName: 'contact-1200.png',
         width: '1200',
@@ -141,7 +141,7 @@ class EmailScreenshotComparison {
         section: 'services',
         status: 'noOld',
       },
-    ];
+    ]);
     */
   }
 

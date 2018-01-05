@@ -56,23 +56,27 @@ const createComparisonColor = (status: string) => {
 
 const createComparisonLinks = (status: string, fileName: string, bucket: string) => {
   const createLink = (folder: string) => `https://s3.amazonaws.com/${bucket}/${folder}/${fileName}`;
+  const noThumbnail = 'http://assets.enhancedigital.co.nz/email/no-thumbnail.png';
   const links = {
     old: createLink('old'),
     new: createLink('new'),
     compare: createLink('compare'),
+    thumb: createLink('thumb'),
   };
 
   switch (true) {
     case status === 'noOld':
       return {
         ...links,
-        old: '#',
+        old: '',
+        thumb: noThumbnail,
       };
 
     case status === 'noNew':
       return {
         ...links,
-        new: '#',
+        new: '',
+        thumb: noThumbnail,
       };
 
     default:
@@ -96,10 +100,45 @@ const createComparisonMessage = (status: string, percentage: number) => {
   }
 };
 
+const createThumbnail = (link: string) => {
+  const noThumbnail = 'http://assets.enhancedigital.co.nz/email/no-thumbnail.png';
+
+  return `<img src="${link ||
+    noThumbnail}" alt="thumbnail" style="background: #ececec; border: 3px solid #cacaca; border-radius: 3px; margin: 0 0 16px; Maring: 0 0 16px; padding: 10px;">`;
+};
+
+const createLinkList = (links: { [index: string]: string }) => {
+  const noLinkStyles = 'opacity: 0.25; text-decoration: line-through;';
+  const createLink = (link: string) =>
+    `<a href="${link || '#'}" style="${!link &&
+      noLinkStyles} Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-size: 10px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">Previous</a>`;
+
+  return Object.keys(links)
+    .map(key => createLink(links[key]))
+    .join(' | ');
+};
+
+const createIcon = (status: string) => {
+  const createLink = (type: string) =>
+    `http://assets.enhancedigital.co.nz/email/comparison-${type}.png`;
+
+  switch (true) {
+    case status === 'match':
+      return createLink('success');
+    case status === 'noMatch':
+      return createLink('error');
+    default:
+      return createLink('warning');
+  }
+};
+
 const createSectionComparison = ({ fileName, width, percentage, status, bucket }: Imanifest) => {
+  const icon = createIcon(status);
   const color = createComparisonColor(status);
   const links = createComparisonLinks(status, fileName, bucket);
   const message = createComparisonMessage(status, percentage);
+  const linkList = createLinkList(links);
+  const thumbnail = createThumbnail(links.thumb);
 
   return `
 <th class="small-12 large-4 columns" style="Margin: 0 auto; color: #054374; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0 auto; padding: 0; padding-bottom: 16px; padding-left: 0 !important; padding-right: 0 !important; text-align: left; width: 177.33333px;">
@@ -108,15 +147,14 @@ const createSectionComparison = ({ fileName, width, percentage, status, bucket }
             <tr style="padding: 0; text-align: left; vertical-align: top;">
                 <th style="Margin: 0; color: #054374; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                 
-                    <div class="enhance-ResultIcon" style="background: ${color}; border-radius: 50%; height: 30px; margin-bottom: 16px; width: 30px;"></div>
-                    
+                    <div class="enhance-ResultIcon" style="background-color: ${color}; background-image: url(${icon}); border-radius: 50%; height: 30px; margin-bottom: 16px; width: 30px;"></div>
+
                     <h5 style="Margin: 0; Margin-bottom: 10px; color: ${color}; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                         ${width}px
                     </h5>
-                   
-                    <a href="${links.old}" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-size: 10px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">Previous</a> |
-                    <a href="${links.new}" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-size: 10px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">Current</a> |
-                    <a href="${links.compare}" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-size: 10px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">Comparison</a>
+
+                    ${thumbnail}
+                    ${linkList}
                     
                     <p style="Margin: 0; Margin-bottom: 10px; color: #054374; font-family: Helvetica, Arial, sans-serif; font-size: 12px; font-weight: normal; hyphens: initial !important; line-height: 1.3; margin: 0; margin-bottom: 10px; margin-top: 8px; padding: 0; text-align: left;">
                         ${message}
