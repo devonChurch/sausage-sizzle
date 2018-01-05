@@ -14,6 +14,7 @@ interface Igrouping {
 }
 
 const { createScaffold, createSpacer } = emailTemplate;
+const cacheBust = Date.now();
 
 const createSectionGroupings = (manifest: Imanifest[]): Igrouping => {
   return manifest
@@ -104,9 +105,9 @@ const createComparisonMessage = (status: string, percentage: number) => {
 
 const createThumbnail = (link: string) => {
   const noThumbnail = 'http://assets.enhancedigital.co.nz/email/no-thumbnail.png';
+  const source = link ? `${link}?v=${cacheBust}` : noThumbnail;
 
-  return `<img src="${link ||
-    noThumbnail}" alt="thumbnail" style="background: #ececec; border: 3px solid #cacaca; border-radius: 3px; padding: 10px;">`;
+  return `<img src="${source}" alt="thumbnail" style="background: #ececec; border: 3px solid #cacaca; border-radius: 3px; padding: 10px;">`;
 };
 
 const createLinkList = (links: { [index: string]: string }) => {
