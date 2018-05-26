@@ -31,7 +31,7 @@ See the main [application repository](https://github.com/devonChurch/kettle-corn
   * Create a Webpack build in *watch* mode
 
     ```
-    npm build:develop
+    npm run build:develop
     ```
   
   * Initialise **Lambdas** on a *local port* using the [Serverless Offline](https://github.com/dherault/serverless-offline) plugin
